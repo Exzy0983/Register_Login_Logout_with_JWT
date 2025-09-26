@@ -1,24 +1,27 @@
 package com.example.loginbackend.controller;
 
+import com.example.loginbackend.entity.User;
+import com.example.loginbackend.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.List;
+
 
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/admin")
 public class AdminController {
+    private final UserService userService;
 
     @GetMapping("/users")
-    public ResponseEntity<?> getUsers() {
-        Map<String, Object> response = new HashMap<>();
-        response.put("message", "전체 사용자 목록 조회 성공");
-        response.put("role", "ADMIN");
-        response.put("userCount", 100);
-        response.put("accessibleBy", "관리자만");
-        return ResponseEntity.ok(response);
+    @PreAuthorize("hasRole('ADMIN')")
+    public ResponseEntity<?> getAllUsers() {
+        List<User> users = userService.getAllUsers();
+        return ResponseEntity.ok(users);
     }
 }

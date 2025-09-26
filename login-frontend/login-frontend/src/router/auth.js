@@ -6,13 +6,19 @@ export default [
     path : '/login',
     name : 'Login',
     component : Login,
-    meta : {requiresAuth : false}
+    meta : {
+      requiresAuth : false,
+      title : '로그인'
+    }
   },
   {
     path : '/register',
     name : 'Register',
     component : Register,
-    meta : {requiresAuth : false}
+    meta : {
+      requiresAuth : false,
+      title : '회원가입'
+    }
   },
 ]
 

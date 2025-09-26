@@ -1,23 +1,25 @@
 package com.example.loginbackend.controller;
 
+import com.example.loginbackend.entity.User;
+import com.example.loginbackend.repository.UserRepository;
+import com.example.loginbackend.security.JwtUtil;
+import com.example.loginbackend.service.UserService;
+import lombok.AllArgsConstructor;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.HashMap;
-import java.util.Map;
-
 @RestController
+@AllArgsConstructor
 @RequestMapping("/api/user")
 public class UserController {
+    private final UserService userService;
 
     @GetMapping("/profile")
-    public ResponseEntity<?> getUsers() {
-        Map<String, Object> response = new HashMap<>();
-        response.put("message", "사용자 프로필 조회 성공");
-        response.put("role", "USER");
-        response.put("accessibleBy", "일반 사용자");
-        return ResponseEntity.ok(response);
+    public ResponseEntity<?> getProfile(@AuthenticationPrincipal String loginId) {
+        User user = userService.getUserProfile(loginId);
+        return ResponseEntity.ok(user);
     }
 }

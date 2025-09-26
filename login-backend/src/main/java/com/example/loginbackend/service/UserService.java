@@ -15,6 +15,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -184,6 +185,15 @@ public class UserService {
                 .build();
     }
     //============================================== Login End  ==============================================//
+
+    public User getUserProfile(String loginId){
+        return userRepository.findByLoginId(loginId)
+                .orElseThrow(() -> new IllegalArgumentException("사용자를 찾을 수 없습니다."));
+    }
+
+    public List<User> getAllUsers(){
+        return userRepository.findAll();
+    }
 }
 
 
